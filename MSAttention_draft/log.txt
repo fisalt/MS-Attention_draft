@@ -1,0 +1,1039 @@
+torchrun --nproc_per_node=auto eval_distributed.py --seq_len 16384 --context_size 16384 --batch_size 1 --base_model /home/wangning/transformer-xl-master/output/llama --peft_model path_to_saving_checkpoints16k_mss_vec/checkpoint-2000 --data_path pg19/test.bin
+
+python zero_to_fp32.py . pytorch_model.bin
+
+python3 get_trainable_weights.py --checkpoint_path path_to_saving_checkpoints16k_mss_vec/checkpoint-2000 --trainable_params "embed,norm"
+
+python3 eval.py --seq_len 16384 --context_size 16384 --batch_size 1 --base_model /home/wangning/transformer-xl-master/output/llama --peft_model path_to_saving_checkpoints16k_mss_vec/checkpoint-2000 --data_path pg19/test.bin
+
+python3 get_trainable_weights.py --checkpoint_path path_to_saving_checkpoints16k_mss_vec/checkpoint-1000 --trainable_params "embed,norm"
+
+python3 get_trainable_weights.py --checkpoint_path path_to_saving_checkpoints16k_ogn/checkpoint-1000 --trainable_params "embed,norm"
+
+python3 eval_ogn.py --seq_len 16384 --context_size 16384 --batch_size 1 --base_model /home/wangning/transformer-xl-master/output/llama --peft_model path_to_saving_checkpoints16k_ogn/checkpoint-1000 --data_path pg19/test.bin
+
+
+python zero_to_fp32.py . pytorch_model.bin
+python3 get_trainable_weights.py --checkpoint_path path_to_saving_checkpoints16k_mss_vec2/checkpoint-5000 --trainable_params "embed,norm"
+python3 eval.py --seq_len 16384 --context_size 16384 --batch_size 1 --base_model /home/wangning/transformer-xl-master/output/llama --peft_model path_to_saving_checkpoints16k_mss_vec2/checkpoint-5000 --data_path pg19/test.bin
+python3 eval.py --seq_len 16384 --context_size 16384 --batch_size 1 --base_model /home/wangning/transformer-xl-master/output/llama --peft_model path_to_saving_checkpoints16k_mss_vec2/checkpoint-5000 --data_path pg19/validation.bin
+validation.bin
+
+python3 eval_ogn.py --seq_len 16384 --context_size 16384 --batch_size 1 --base_model /home/wangning/transformer-xl-master/output/llama --peft_model path_to_saving_checkpoints16k_ogn/checkpoint-1000 --data_path pg19/validation.bin
+
+python3 get_trainable_weights.py --checkpoint_path path_to_saving_checkpoints16k_mss_vec_s4/checkpoint-5000 --trainable_params "embed,norm"
+python3 eval.py --seq_len 16384 --context_size 16384 --batch_size 1 --base_model /home/wangning/transformer-xl-master/output/llama --peft_model path_to_saving_checkpoints16k_mss_vec_s4/checkpoint-5000 --data_path pg19/validation.bin
+
+
+scp wangningdev.wangning.tech-platform_research.ws@ssh.platform.baai.ac.cn:/opt/conda/lib/python3.8/site-packages/flash_attn-2.5.6-py3.8-linux-x86_64.egg/flash_attn_2_cuda.py ./
+scp wangningdev.wangning.tech-platform_research.ws@ssh.platform.baai.ac.cn:/opt/conda/lib/python3.8/site-packages/flash_attn-2.5.6-py3.8-linux-x86_64.egg/flash_attn_2_cuda.cpython-38-x86_64-linux-gnu.so ./
+
+python3 get_trainable_weights.py --checkpoint_path path_to_saving_checkpoints16k_mss_vec_s3/checkpoint-500 --trainable_params "embed,norm"
+python3 eval.py --seq_len 16384 --context_size 16384 --batch_size 1 --base_model /home/wangning/transformer-xl-master/output/llama --peft_model path_to_saving_checkpoints16k_mss_vec_s3/checkpoint-500 --data_path pg19/validation.bin
+
+path_to_saving_checkpoints16k_mss_vec/checkpoint-1000
+python3 get_trainable_weights.py --checkpoint_path path_to_saving_checkpoints16k_mss_vec/checkpoint-1000 --trainable_params "embed,norm"
+python3 eval.py --seq_len 16384 --context_size 16384 --batch_size 1 --base_model /home/wangning/transformer-xl-master/output/llama --peft_model path_to_saving_checkpoints16k_mss_vec/checkpoint-1000 --data_path pg19/validation.bin
+
+huggingface-cli download --resume-download Yukang/Llama-2-7b-longlora-16k --repo-type dataset --local-dir ./path_to_ogn_16k  --cache-dir ./path_to_ogn_16k
+huggingface-cli download --resume-download Yukang/Llama-2-7b-longlora-16k --local-dir ./path_to_ogn_16k  --cache-dir ./path_to_ogn_16k
+
+
+python3 eval_ogn.py --seq_len 16384 --context_size 16384 --batch_size 1 --base_model /home/wangning/transformer-xl-master/output/llama --peft_model path_to_ogn_16k --data_path pg19/validation.bin
+
+python zero_to_fp32.py . pytorch_model.bin
+python3 get_trainable_weights.py --checkpoint_path path_to_saving_checkpoints16k_mss_vec_ne/checkpoint-1000 --trainable_params "embed,norm,patchscale"
+python3 eval.py --seq_len 16384 --context_size 16384 --batch_size 1 --base_model /home/wangning/transformer-xl-master/output/llama --peft_model path_to_saving_checkpoints16k_mss_vec_ne/checkpoint-1000 --data_path pg19/validation.bin
+
+
+python3 merge_lora_weights_and_save_hf_model.py \
+        --base_model /home/wangning/transformer-xl-master/output/llama \
+        --peft_model path_to_saving_checkpoints16k_mss_vec2/checkpoint-5000 \
+        --context_size 16384 \
+        --save_path /home/wangning/LongLoRA-main/path_to_saving_checkpoints16k_mss_vec2/checkpoint-5000-7b-longlora-merged
+
+python3 eval.py --seq_len 16384 --context_size 16384 --batch_size 1 --base_model /home/wangning/LongLoRA-main/path_to_saving_checkpoints16k_mss_vec2/checkpoint-5000-7b-longlora-merged --peft_model path_to_saving_checkpoints16k_mss_vec2/checkpoint-5000 --data_path pg19/validation.bin
+python3 get_trainable_weights.py --checkpoint_path path_to_saving_checkpoints16k_mss_vec2/checkpoint-5000 --trainable_params "embed,norm,patchscale"
+python3 get_trainable_weights.py --checkpoint_path path_to_saving_checkpoints16k_mss_vec_s3/checkpoint-500 --trainable_params "embed,norm,patchscale"
+
+python zero_to_fp32.py . pytorch_model.bin
+python3 get_trainable_weights.py --checkpoint_path path_to_saving_checkpoints16k_ogn2/checkpoint-5000 --trainable_params "embed,norm,patchscale"
+python3 get_trainable_weights.py --checkpoint_path path_to_saving_checkpoints16k_mss_vec_s3_gpkpop/checkpoint-5000 --trainable_params "embed,norm,patchscale"
+python3 get_trainable_weights.py --checkpoint_path path_to_saving_checkpoints16k_mss_vec3_ac4/checkpoint-1500 --trainable_params "embed,norm,patchscale"
+python3 get_trainable_weights.py --checkpoint_path path_to_saving_checkpoints16k_mss_vec3_lwmixmss/checkpoint-4000 --trainable_params "embed,norm,patchscale"
+python3 get_trainable_weights.py --checkpoint_path path_to_saving_checkpoints16k_onlylw512/checkpoint-5000 --trainable_params "embed,norm,patchscale"
+python3 get_trainable_weights.py --checkpoint_path path_to_saving_checkpoints16k_mss_vec3_c/checkpoint-1000 --trainable_params "embed,norm,patchscale"
+python3 get_trainable_weights.py --checkpoint_path path_to_saving_checkpoints16k_mss_vec3_c/checkpoint-2000 --trainable_params "embed,norm,patchscale"
+python3 get_trainable_weights.py --checkpoint_path path_to_saving_checkpoints16k_mss_vec3_kvcc-back/checkpoint-1000 --trainable_params "embed,norm,patchscale"
+python3 get_trainable_weights.py --checkpoint_path path_to_saving_checkpoints16k_mss_vec3_kvccc-nope/checkpoint-3000 --trainable_params "embed,norm,patchscale"
+python3 get_trainable_weights.py --checkpoint_path path_to_saving_checkpoints32k_mss_vec3_kvcc/checkpoint-1000 --trainable_params "embed,norm"
+python3 get_trainable_weights.py --checkpoint_path path_to_saving_checkpoints16k_mss_vec3_kvcc_fpearc/checkpoint-5000 --trainable_params "embed,norm,patchscale"
+python3 get_trainable_weights.py --checkpoint_path path_to_saving_checkpoints16k_mss_vec3_kvcc/checkpoint-5000 --trainable_params "embed,norm,patchscale"
+python3 get_trainable_weights.py --checkpoint_path path_to_saving_checkpoints16k_mss_vec3_kvccc/checkpoint-5000 --trainable_params "embed,norm,patchscale"
+python3 get_trainable_weights.py --checkpoint_path path_to_saving_checkpoints16k_mss_vec3_kvccc_lora-ko/checkpoint-5000 --trainable_params "embed,norm,patchscale"
+python3 get_trainable_weights.py --checkpoint_path path_to_saving_checkpoints16k_msslocalt-ko/checkpoint-500 --trainable_params "embed,norm,patchscale"
+python3 get_trainable_weights.py --checkpoint_path path_to_saving_checkpoints4k_kv3c-ko-128/checkpoint-5000 --trainable_params "embed,norm,patchscale"
+python3 get_trainable_weights.py --checkpoint_path path_to_saving_checkpoints16k_k3v-ffo/checkpoint-5000 --trainable_params "embed,norm,patchscale,o_proj"
+python3 get_trainable_weights.py --checkpoint_path path_to_saving_checkpoints16k_mssl-localr-ko/checkpoint-1000 --trainable_params "embed,norm,patchscale,o_proj,k_proj"
+
+
+
+python3 eval_ogn.py --seq_len 16384 --context_size 16384 --batch_size 1 --base_model /home/wangning/transformer-xl-master/output/llama --peft_model path_to_saving_checkpoints16k_ogn2/checkpoint-5000 --data_path pg19/validation.bin
+python3 eval.py --seq_len 16384 --context_size 16384 --batch_size 1 --base_model /home/wangning/transformer-xl-master/output/llama --peft_model path_to_saving_checkpoints16k_mss_vec3_lwmixmss/checkpoint-4000 --data_path pg19/validation.bin
+python3 eval.py --seq_len 16384 --context_size 16384 --batch_size 1 --base_model /home/wangning/transformer-xl-master/output/llama --peft_model path_to_saving_checkpoints16k_mss_vec3_kvcc_fpe2/checkpoint-5000 --data_path pg19/validation.bin --attn_select 3
+python3 eval.py --seq_len 16384 --context_size 16384 --batch_size 1 --base_model /home/wangning/transformer-xl-master/output/llama --peft_model path_to_saving_checkpoints16k_mss_vec3_kvcc_fpe2/checkpoint-5000 --data_path pg19/validation.bin --attn_select 5 --lm_select 1
+\
+
+
+python3 eval.py --seq_len 16384 --context_size 16384 --batch_size 1 --base_model /home/wangning/transformer-xl-master/output/llama --peft_model path_to_saving_checkpoints16k_mss_vec3_kvccc/checkpoint-1000 --data_path pg19/validation.bin --attn_select 5 --lm_select 1
+python3 eval.py --seq_len 16384 --context_size 16384 --batch_size 1 --base_model /home/wangning/transformer-xl-master/output/llama --peft_model path_to_saving_checkpoints16k_mss_vec3_kvcc/checkpoint-5000 --data_path pg19/validation.bin --attn_select 4 --lm_select 1
+
+python3 eval.py --seq_len 131072 --context_size 131072 --batch_size 1 --base_model /home/wangning/transformer-xl-master/output/llama --peft_model path_to_saving_checkpoints16k_mss_vec3_kvcc_fpearc/checkpoint-4000 --data_path pg19/validation.bin --attn_select 6 --lm_select 1
+
+
+python3 eval.py --seq_len 32768 --context_size 32768 --batch_size 1 --base_model /home/wangning/transformer-xl-master/output/llama --data_path pg19/validation.bin --attn_select 3
+python3 eval.py --seq_len 16384 --context_size 16384 --batch_size 1 --base_model /home/wangning/transformer-xl-master/output/llama --peft_model path_to_saving_checkpoints16k_mss_vec3_kvccc/checkpoint-1000 --data_path pg19/validation.bin --attn_select 7 --lm_select 1
+python3 eval.py --seq_len 65536 --context_size 65536 --batch_size 1 --base_model /home/wangning/transformer-xl-master/output/llama --peft_model path_to_saving_checkpoints16k_mss_vec3_kvccc/checkpoint-1000 --data_path pg19/validation.bin --attn_select 7 --lm_select 1
+python3 eval.py --seq_len 131072 --context_size 65536 --batch_size 1 --base_model /home/wangning/transformer-xl-master/output/llama --peft_model path_to_saving_checkpoints16k_mss_vec3_kvccc/checkpoint-1000 --data_path pg19/validation.bin --attn_select 7 --lm_select 1
+python3 eval.py --seq_len 65536 --context_size 65536 --batch_size 1 --base_model /home/wangning/transformer-xl-master/output/llama --peft_model path_to_saving_checkpoints16k_mss_vec3_kvccc/checkpoint-1000 --data_path pg19/validation.bin --attn_select 5 --lm_select 1
+python3 eval.py --seq_len 131072 --context_size 131072 --batch_size 1 --base_model /home/wangning/transformer-xl-master/output/llama --peft_model path_to_saving_checkpoints16k_mss_vec3_kvccc/checkpoint-1000 --data_path pg19/validation.bin --attn_select 5 --lm_select 1
+python3 eval.py --seq_len 32768 --context_size 32768 --batch_size 1 --base_model /home/wangning/transformer-xl-master/output/llama --peft_model path_to_saving_checkpoints16k_mss_vec3_kvccc/checkpoint-1000 --data_path pg19/validation.bin --attn_select 7 --lm_select 1
+python3 eval.py --seq_len 262144 --context_size 262144 --batch_size 1 --base_model /home/wangning/transformer-xl-master/output/llama --peft_model path_to_saving_checkpoints16k_mss_vec3_kvccc/checkpoint-1000 --data_path pg19/validation.bin --attn_select 7 --lm_select 1
+python3 eval.py --seq_len 524288 --context_size 524288 --batch_size 1 --base_model /home/wangning/transformer-xl-master/output/llama --peft_model path_to_saving_checkpoints16k_mss_vec3_kvccc/checkpoint-1000 --data_path pg19/validation.bin --attn_select 7 --lm_select 1
+python3 eval.py --seq_len 1048576 --context_size 1048576 --batch_size 1 --base_model /home/wangning/transformer-xl-master/output/llama --peft_model path_to_saving_checkpoints16k_mss_vec3_kvccc/checkpoint-1000 --data_path pg19/validation.bin --attn_select 7 --lm_select 1
+python3 eval_ogn.py --seq_len 32768 --context_size 32768 --batch_size 1 --base_model /home/wangning/transformer-xl-master/output/llama --data_path pg19/validation.bin --replace_l -1
+deepspeed --num_gpus 2 --master_port 60000 python3 eval_ds.py --seq_len 32768 --context_size 32768 --batch_size 1 --base_model /home/wangning/transformer-xl-master/output/llama --peft_model path_to_saving_checkpoints16k_mss_vec3_kvcc/checkpoint-5000 --data_path pg19/validation.bin --attn_select 5
+deepspeed --num_gpus 2 --master_port 60000 eval_ds.py --seq_len 32768 --context_size 32768 --batch_size 1 --base_model /home/wangning/transformer-xl-master/output/llama --peft_model path_to_saving_checkpoints16k_mss_vec3_kvcc/checkpoint-5000 --data_path pg19/validation.bin --attn_select 4
+deepspeed --num_gpus 2 --master_port 60000 eval_ds.py --seq_len 32768 --context_size 32768 --batch_size 1 --base_model /home/wangning/transformer-xl-master/output/llama --peft_model path_to_saving_checkpoints16k_mss_vec3_kvccc/checkpoint-1000 --data_path pg19/validation.bin --attn_select 5
+deepspeed --num_gpus 2 --master_port 60000 eval_ds.py --seq_len 65536 --context_size 65536 --batch_size 1 --base_model /home/wangning/transformer-xl-master/output/llama --peft_model path_to_saving_checkpoints16k_mss_vec3_kvccc/checkpoint-1000 --data_path pg19/validation.bin --attn_select 5
+
+python3 eval.py --seq_len 65536 --context_size 65536 --batch_size 1 --base_model /home/wangning/transformer-xl-master/output/llama --peft_model path_to_saving_checkpoints16k_mss_vec3_kvccc/checkpoint-1000 --data_path pg19/validation.bin --attn_select 7 --lm_select 1
+python3 merge_lora_weights_and_save_hf_model.py \
+        --base_model /home/wangning/transformer-xl-master/output/llama \
+        --peft_model path_to_saving_checkpoints32k_mss_vec3_kvcc/checkpoint-2000 \
+        --context_size 32768 \
+        --save_path checkpoints32k_mss_vec3_kvcc/Llama-2-7b-longlora-32k-merged-2000
+
+python3 eval.py --seq_len 32768 --context_size 32768 --batch_size 1 --base_model /home/wangning/transformer-xl-master/output/llama --peft_model path_to_saving_checkpoints16k_mss_vec3_kvccc/checkpoint-1000 --data_path pg19/validation.bin --attn_select 5 --lm_select 1
+
+
+torchrun --nproc_per_node=auto eval_distributed.py --seq_len 32768 --context_size 32768 --batch_size 1 --base_model /home/wangning/transformer-xl-master/output/llama --peft_model path_to_saving_checkpoints32k_mss_vec3_kvcc/checkpoint-1000 --data_path pg19/validation.bin --replace_l 1
+
+torchrun --nproc_per_node=auto eval_distributed.py --seq_len 32768 --context_size 32768 --batch_size 1 --base_model /home/wangning/transformer-xl-master/output/llama --peft_model path_to_saving_checkpoints16k_mss_vec3_kvcc/checkpoint-5000 --data_path pg19/validation.bin --replace_l 5
+
+
+python3 eval.py --seq_len 65536 --context_size 16384 --batch_size 1 --base_model /home/wangning/transformer-xl-master/output/llama --peft_model path_to_saving_checkpoints16k_mss_vec3_kvccc/checkpoint-1000 --data_path pg19/validation.bin --attn_select 7 --lm_select 1
+
+
+python3 eval.py --seq_len 131072 --context_size 65536 --batch_size 1 --base_model /home/wangning/transformer-xl-master/output/llama --peft_model path_to_saving_checkpoints16k_mss_vec3_kvccc/checkpoint-1000 --data_path pg19/validation.bin --attn_select 7 --lm_select 1
+pg19-5samples{'val_loss': 1.9648303985595703, 'val_perplexity': 7.133693173075467, 'val_perplexity_per_chunk': tensor([7.1337])}
+python3 eval.py --seq_len 262144 --context_size 65536 --batch_size 1 --base_model /home/wangning/transformer-xl-master/output/llama --peft_model path_to_saving_checkpoints16k_mss_vec3_kvccc/checkpoint-1000 --data_path pg19/validation.bin --attn_select 7 --lm_select 1
+pg19-5samples{'val_loss': 1.91208815574646, 'val_perplexity': 6.767196329251763, 'val_perplexity_per_chunk': tensor([6.7672])}
+python3 eval.py --seq_len 524288 --context_size 65536 --batch_size 1 --base_model /home/wangning/transformer-xl-master/output/llama --peft_model path_to_saving_checkpoints16k_mss_vec3_kvccc/checkpoint-1000 --data_path pg19/validation.bin --attn_select 7 --lm_select 1
+{'val_loss': 1.956378698348999, 'val_perplexity': 7.073655445185821, 'val_perplexity_per_chunk': tensor([7.0737])}
+
+
+python3 eval.py --seq_len 32768 --context_size 32768 --batch_size 1 --base_model /home/wangning/transformer-xl-master/output/llama --peft_model path_to_saving_checkpoints16k_mss_vec3_kvccc/checkpoint-1000 --data_path pg19/validation.bin --attn_select 7 --lm_select 1 --sliding_window 32768
+
+python3 eval.py --seq_len 65536 --context_size 32768 --batch_size 1 --base_model /home/wangning/transformer-xl-master/output/llama --peft_model path_to_saving_checkpoints16k_mss_vec3_kvccc/checkpoint-1000 --data_path pg19/validation.bin --attn_select 7 --lm_select 1 --sliding_window 65536
+{'val_loss': 1.7061841487884521, 'val_perplexity': 5.507897663702228, 'val_perplexity_per_chunk': tensor([5.5079])}
+python3 eval.py --seq_len 131072 --context_size 32768 --batch_size 1 --base_model /home/wangning/transformer-xl-master/output/llama --peft_model path_to_saving_checkpoints16k_mss_vec3_kvccc/checkpoint-1000 --data_path pg19/validation.bin --attn_select 7 --lm_select 1 --sliding_window 131072
+{'val_loss': 1.4806008338928223, 'val_perplexity': 4.395581526967248, 'val_perplexity_per_chunk': tensor([4.3956])}
+python3 eval.py --seq_len 262144 --context_size 32768 --batch_size 1 --base_model /home/wangning/transformer-xl-master/output/llama --peft_model path_to_saving_checkpoints16k_mss_vec3_kvccc/checkpoint-1000 --data_path pg19/validation.bin --attn_select 7 --lm_select 1
+python3 eval.py --seq_len 262144 --context_size 32768 --batch_size 1 --base_model /home/wangning/transformer-xl-master/output/llama --peft_model path_to_saving_checkpoints16k_mss_vec3_kvccc/checkpoint-1000 --data_path pg19/validation.bin --attn_select 7 --lm_select 1 --sliding_window 262144
+{'val_loss': 1.3641002178192139, 'val_perplexity': 3.9121977490904505, 'val_perplexity_per_chunk': tensor([3.9122])}
+python3 eval.py --seq_len 524288 --context_size 32768 --batch_size 1 --base_model /home/wangning/transformer-xl-master/output/llama --peft_model path_to_saving_checkpoints16k_mss_vec3_kvccc/checkpoint-1000 --data_path pg19/validation.bin --attn_select 7 --lm_select 1
+{'val_loss': 1.2992488145828247, 'val_perplexity': 3.666538176118889, 'val_perplexity_per_chunk': tensor([3.6665])}
+
+python3 eval.py --seq_len 524288 --context_size 16384 --batch_size 1 --base_model /home/wangning/transformer-xl-master/output/llama --peft_model path_to_saving_checkpoints16k_mss_vec3_kvccc/checkpoint-1000 --data_path pg19/validation.bin --attn_select 7 --lm_select 1
+
+python3 eval.py --seq_len 1048576 --context_size 32768 --batch_size 1 --base_model /home/wangning/transformer-xl-master/output/llama --peft_model path_to_saving_checkpoints16k_mss_vec3_kvccc/checkpoint-1000 --data_path pg19/validation.bin --attn_select 7 --lm_select 1
+python3 eval.py --seq_len 2097152 --context_size 32768 --batch_size 1 --base_model /home/wangning/transformer-xl-master/output/llama --peft_model path_to_saving_checkpoints16k_mss_vec3_kvccc/checkpoint-1000 --data_path pg19/validation.bin --attn_select 7 --lm_select 1
+
+deepspeed --num_gpus 2 --master_port 60000 eval_ds.py --seq_len 1048576 --context_size 32768 --batch_size 1 --base_model /home/wangning/transformer-xl-master/output/llama --peft_model path_to_saving_checkpoints16k_mss_vec3_kvccc/checkpoint-1000 --data_path pg19/validation.bin --attn_select 7 --lm_select 1
+deepspeed --num_gpus 2 --master_port 60000 eval_ds.py --seq_len 1048576 --context_size 65536 --batch_size 1 --base_model /home/wangning/transformer-xl-master/output/llama --peft_model path_to_saving_checkpoints16k_mss_vec3_kvccc/checkpoint-1000 --data_path pg19/validation.bin --attn_select 7 --lm_select 1
+torch.cuda.OutOfMemoryError: CUDA out of memory. Tried to allocate 6.11 GiB. GPU 1 has a total capacty of 39.59 GiB of which 6.10 GiB is free. Process 1993260 has 33.45 GiB memory in use. Of the allocated memory 27.63 GiB is allocated by PyTorch, and 3.23 GiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
+cd /opt/conda/lib/python3.8/site-packages/transformers/models/llama
+
+python3 passkey_retrivial.py \
+        --context_size 16384 \
+        --base_model path_to_saving_checkpoints16k_mss_vec3_kvccc/checkpoint-1000-7b-longlora-kv3c-merged \
+        --max_tokens 16384 \
+        --interval 1000 \
+        --replace_l 5   \
+        --replace_lm 0
+
+python3 passkey_retrivial.py \
+        --context_size 16384 \
+        --base_model path_to_saving_checkpoints16k_mss_vec3_kvccc/checkpoint-5000-7b-longlora-kv3c-merged \
+        --max_tokens 16384 \
+        --interval 1000 \
+        --replace_l 5   \
+        --replace_lm 0
+
+python3 passkey_retrivial.py \
+        --context_size 16384 \
+        --base_model path_to_saving_checkpoints16k_mss_vec3_kvcc/checkpoint-5000-7b-longlora-kvcc-merged \
+        --max_tokens 16384 \
+        --interval 1000 \
+        --replace_l 4   \
+        --replace_lm 0
+
+python3 merge_lora_weights_and_save_hf_model.py \
+        --base_model /home/wangning/transformer-xl-master/output/llama \
+        --peft_model path_to_saving_checkpoints16k_mss_vec3_kvccc/checkpoint-5000 \
+        --context_size 16384 \
+        --save_path /home/wangning/LongLoRA-main/path_to_saving_checkpoints16k_mss_vec3_kvccc/checkpoint-5000-7b-longlora-kv3c-merged
+
+
+python3 merge_lora_weights_and_save_hf_model.py \
+        --base_model /home/wangning/transformer-xl-master/output/llama \
+        --peft_model path_to_saving_checkpoints16k_ogn/checkpoint-1000 \
+        --context_size 16384 \
+        --save_path /home/wangning/LongLoRA-main/path_to_saving_checkpoints16k_ogn/checkpoint-1000-7b-longlora-ogn-merged
+
+python3 passkey_retrivial.py \
+        --context_size 16384 \
+        --base_model path_to_saving_checkpoints16k_ogn/checkpoint-1000-7b-longlora-ogn-merged \
+        --max_tokens 16384 \
+        --interval 1000 \
+        --replace_l 1   \
+        --replace_lm 0
+
+
+python3 passkey_retrivial.py \
+        --context_size 2048 \
+        --base_model /home/wangning/transformer-xl-master/output/llama \
+        --max_tokens 4096 \
+        --interval 1000 \
+        --replace_l 9   \
+        --replace_lm 0
+
+python3 merge_lora_weights_and_save_hf_model.py \
+        --base_model /home/wangning/transformer-xl-master/output/llama \
+        --peft_model path_to_saving_checkpoints16k_mss_vec3_kvcc/checkpoint-5000 \
+        --context_size 16384 \
+        --save_path /home/wangning/LongLoRA-main/path_to_saving_checkpoints16k_mss_vec3_kvcc/checkpoint-5000-7b-longlora-kvcc-merged
+
+python3 eval.py --seq_len 1024 --context_size 16384 --batch_size 1 --base_model /home/wangning/LongLoRA-main/path_to_saving_checkpoints16k_mss_vec3_kvccc/checkpoint-1000-7b-longlora-kv3c-merged --data_path pg19/validation.bin --attn_select 5 --lm_select 0
+CUDA_VISIBLE_DEVICES=0 python3 eval.py --seq_len 1024 --context_size 16384 --batch_size 1 --base_model /home/wangning/LongLoRA-main/path_to_saving_checkpoints16k_mss_vec3_kvcc/checkpoint-5000-7b-longlora-kvcc-merged --data_path pg19/validation.bin --attn_select 4 --lm_select 0
+{'val_loss': 9.099801063537598, 'val_perplexity': 8953.4565420984, 'val_perplexity_per_chunk': tensor([8953.5117])}
+CUDA_VISIBLE_DEVICES=1 python3 eval.py --seq_len 2048 --context_size 2048 --batch_size 1 --base_model /home/wangning/LongLoRA-main/path_to_saving_checkpoints16k_mss_vec3_kvcc/checkpoint-5000-7b-longlora-kvcc-merged --data_path pg19/validation.bin --attn_select 4 --lm_select 0
+{'val_loss': 4.4455647468566895, 'val_perplexity': 85.24775287131736, 'val_perplexity_per_chunk': tensor([85.2480])}
+python3 eval.py --seq_len 4096 --context_size 16384 --batch_size 1 --base_model /home/wangning/LongLoRA-main/path_to_saving_checkpoints16k_mss_vec3_kvcc/checkpoint-5000-7b-longlora-kvcc-merged --data_path pg19/validation.bin --attn_select 4 --lm_select 0
+{'val_loss': 2.265126943588257, 'val_perplexity': 9.632332611975604, 'val_perplexity_per_chunk': tensor([9.6323])}
+
+python3 eval.py --seq_len 1024 --context_size 4096 --batch_size 1 --base_model /home/wangning/transformer-xl-master/output/llama --data_path pg19/validation.bin --attn_select 8 --lm_select 0
+{'val_loss': 2.2651567459106445, 'val_perplexity': 9.632619681942007, 'val_perplexity_per_chunk': tensor([9.6326])}
+CUDA_VISIBLE_DEVICES=1 python3 eval.py --seq_len 2048 --context_size 4096 --batch_size 1 --base_model /home/wangning/transformer-xl-master/output/llama --data_path pg19/validation.bin --attn_select 8 --lm_select 0
+{'val_loss': 2.204411506652832, 'val_perplexity': 9.06490191399107, 'val_perplexity_per_chunk': tensor([9.0649])}
+CUDA_VISIBLE_DEVICES=1 python3 eval.py --seq_len 4096 --context_size 4096 --batch_size 1 --base_model /home/wangning/transformer-xl-master/output/llama --data_path pg19/validation.bin --attn_select 8 --lm_select 0
+{'val_loss': 2.119582176208496, 'val_perplexity': 8.327645394256914, 'val_perplexity_per_chunk': tensor([8.3277])}
+CUDA_VISIBLE_DEVICES=0 python3 eval.py --seq_len 512 --context_size 4096 --batch_size 1 --base_model /home/wangning/transformer-xl-master/output/llama --data_path pg19/validation.bin --attn_select 8 --lm_select 0
+{'val_loss': 2.418586015701294, 'val_perplexity': 11.229950813634023, 'val_perplexity_per_chunk': tensor([11.2300])}
+
+
+CUDA_VISIBLE_DEVICES=0 python3 eval.py --seq_len 16384 --context_size 16384 --batch_size 1 --base_model /home/wangning/LongLoRA-main/path_to_saving_checkpoints16k_ogn/checkpoint-1000-7b-longlora-ogn-merged --data_path pg19/validation.bin --attn_select 1 --lm_select 0
+{'val_loss': 2.046220064163208, 'val_perplexity': 7.738583710879784, 'val_perplexity_per_chunk': tensor([7.7386])}
+CUDA_VISIBLE_DEVICES=1 python3 eval.py --seq_len 1024 --context_size 16384 --batch_size 1 --base_model /home/wangning/LongLoRA-main/path_to_saving_checkpoints16k_ogn/checkpoint-1000-7b-longlora-ogn-merged --data_path pg19/validation.bin --attn_select 1 --lm_select 0
+{'val_loss': 2.5597121715545654, 'val_perplexity': 12.93207228871163, 'val_perplexity_per_chunk': tensor([12.9321])}
+CUDA_VISIBLE_DEVICES=1 python3 eval.py --seq_len 1024 --context_size 8192 --batch_size 1 --base_model /home/wangning/LongLoRA-main/path_to_saving_checkpoints16k_ogn/checkpoint-1000-7b-longlora-ogn-merged --data_path pg19/validation.bin --attn_select 1 --lm_select 0
+{'val_loss': 2.61892032623291, 'val_perplexity': 13.720877316559498, 'val_perplexity_per_chunk': tensor([13.7209])}
+
+
+CUDA_VISIBLE_DEVICES=0 python3 eval.py --seq_len 1024 --context_size 16384 --batch_size 1 --base_model /home/wangning/LongLoRA-main/path_to_saving_checkpoints16k_mss_vec3_kvccc/checkpoint-1000-7b-longlora-kv3c-merged --data_path pg19/validation.bin --attn_select 5 --lm_select 0
+{'val_loss': 2.9882609844207764, 'val_perplexity': 19.851091129418123, 'val_perplexity_per_chunk': tensor([19.8511])}
+CUDA_VISIBLE_DEVICES=1 python3 eval.py --seq_len 2048 --context_size 16384 --batch_size 1 --base_model /home/wangning/LongLoRA-main/path_to_saving_checkpoints16k_mss_vec3_kvccc/checkpoint-1000-7b-longlora-kv3c-merged --data_path pg19/validation.bin --attn_select 5 --lm_select 0
+{'val_loss': 2.5818731784820557, 'val_perplexity': 13.221858959915204, 'val_perplexity_per_chunk': tensor([13.2219])}
+CUDA_VISIBLE_DEVICES=0 python3 eval.py --seq_len 1024 --context_size 8192 --batch_size 1 --base_model /home/wangning/LongLoRA-main/path_to_saving_checkpoints16k_mss_vec3_kvccc/checkpoint-1000-7b-longlora-kv3c-merged --data_path pg19/validation.bin --attn_select 5 --lm_select 0
+{'val_loss': 3.4392101764678955, 'val_perplexity': 31.162263609156565, 'val_perplexity_per_chunk': tensor([31.1623])}
+CUDA_VISIBLE_DEVICES=1 python3 eval.py --seq_len 512 --context_size 16384 --batch_size 1 --base_model /home/wangning/LongLoRA-main/path_to_saving_checkpoints16k_mss_vec3_kvccc/checkpoint-1000-7b-longlora-kv3c-merged --data_path pg19/validation.bin --attn_select 5 --lm_select 0
+{'val_loss': 3.7638370990753174, 'val_perplexity': 43.113430768271535, 'val_perplexity_per_chunk': tensor([43.1135])}
+CUDA_VISIBLE_DEVICES=0 python3 eval.py --seq_len 1024 --context_size 32768 --batch_size 1 --base_model /home/wangning/LongLoRA-main/path_to_saving_checkpoints16k_mss_vec3_kvccc/checkpoint-1000-7b-longlora-kv3c-merged --data_path pg19/validation.bin --attn_select 5 --lm_select 0
+
+
+
+
+CUDA_VISIBLE_DEVICES=0 python3 eval.py --seq_len 1024 --context_size 16384 --batch_size 1 --base_model /home/wangning/LongLoRA-main/path_to_saving_checkpoints16k_mss_vec3_kvccc/checkpoint-1000-7b-longlora-kv3c-merged --data_path pg19/validation.bin --attn_select 5 --lm_select 0
+fc2:{'val_loss': 2.513868570327759, 'val_perplexity': 12.352603855679547, 'val_perplexity_per_chunk': tensor([12.3526])}
+{'val_loss': 2.455364227294922, 'val_perplexity': 11.650657028149567, 'val_perplexity_per_chunk': tensor([11.6507])}
+CUDA_VISIBLE_DEVICES=0 python3 eval.py --seq_len 2048 --context_size 16384 --batch_size 1 --base_model /home/wangning/LongLoRA-main/path_to_saving_checkpoints16k_mss_vec3_kvccc/checkpoint-1000-7b-longlora-kv3c-merged --data_path pg19/validation.bin --attn_select 5 --lm_select 0
+fc2:{'val_loss': 2.613534688949585, 'val_perplexity': 13.64718032845153, 'val_perplexity_per_chunk': tensor([13.6472])}
+CUDA_VISIBLE_DEVICES=0 python3 eval.py --seq_len 4096 --context_size 16384 --batch_size 1 --base_model /home/wangning/LongLoRA-main/path_to_saving_checkpoints16k_mss_vec3_kvccc/checkpoint-1000-7b-longlora-kv3c-merged --data_path pg19/validation.bin --attn_select 5 --lm_select 0
+{'val_loss': 3.5967724323272705, 'val_perplexity': 36.480213326266025, 'val_perplexity_per_chunk': tensor([36.4803])}
+CUDA_VISIBLE_DEVICES=1 python3 eval.py --seq_len 512 --context_size 16384 --batch_size 1 --base_model /home/wangning/LongLoRA-main/path_to_saving_checkpoints16k_mss_vec3_kvccc/checkpoint-1000-7b-longlora-kv3c-merged --data_path pg19/validation.bin --attn_select 5 --lm_select 0
+{'val_loss': 4.003688812255859, 'val_perplexity': 54.79977670194804, 'val_perplexity_per_chunk': tensor([54.7999])}
+CUDA_VISIBLE_DEVICES=1 python3 eval.py --seq_len 512 --context_size 16384 --batch_size 1 --base_model /home/wangning/LongLoRA-main/path_to_saving_checkpoints16k_mss_vec3_kvccc/checkpoint-1000-7b-longlora-kv3c-merged --data_path pg19/validation.bin --attn_select 5 --lm_select 0
+
+
+
+CUDA_VISIBLE_DEVICES=0 python3 eval.py --seq_len 890 --context_size 16384 --batch_size 1 --base_model /home/wangning/LongLoRA-main/path_to_saving_checkpoints16k_mss_vec3_kvccc/checkpoint-1000-7b-longlora-kv3c-merged --data_path pg19/validation.bin --attn_select 5 --lm_select 0
+attn_outputs,attn_weights=forward_mss_local_inline_for_sc(self,query_r,key_r,value_r,num_patch=256,seg_len=2048)
+{'val_loss': 2.6802175045013428, 'val_perplexity': 14.588239663834354, 'val_perplexity_per_chunk': tensor([14.5883])}
+CUDA_VISIBLE_DEVICES=0 python3 eval.py --seq_len 640 --context_size 16384 --batch_size 1 --base_model /home/wangning/LongLoRA-main/path_to_saving_checkpoints16k_mss_vec3_kvccc/checkpoint-1000-7b-longlora-kv3c-merged --data_path pg19/validation.bin --attn_select 5 --lm_select 0
+
+
+attn_outputs,attn_weights=forward_mss_local_inline_for_sc(self,query_r,key_r,value_r,num_patch=256,seg_len=2048)
+CUDA_VISIBLE_DEVICES=0 python3 eval.py --seq_len 512 --context_size 16384 --batch_size 1 --base_model /home/wangning/LongLoRA-main/path_to_saving_checkpoints16k_mss_vec3_kvccc/checkpoint-1000-7b-longlora-kv3c-merged --data_path pg19/validation.bin --attn_select 5 --lm_select 0
+{'val_loss': 2.772141456604004, 'val_perplexity': 15.992815528314615, 'val_perplexity_per_chunk': tensor([15.9928])}
+CUDA_VISIBLE_DEVICES=0 python3 eval.py --seq_len 640 --context_size 16384 --batch_size 1 --base_model /home/wangning/LongLoRA-main/path_to_saving_checkpoints16k_mss_vec3_kvccc/checkpoint-1000-7b-longlora-kv3c-merged --data_path pg19/validation.bin --attn_select 5 --lm_select 0
+{'val_loss': 2.4097537994384766, 'val_perplexity': 11.131202252106842, 'val_perplexity_per_chunk': tensor([11.1312])}
+UDA_VISIBLE_DEVICES=1 python3 eval.py --seq_len 890 --context_size 16384 --batch_size 1 --base_model /home/wangning/LongLoRA-main/path_to_saving_checkpoints16k_mss_vec3_kvccc/checkpoint-1000-7b-longlora-kv3c-merged --data_path pg19/validation.bin --attn_select 5 --lm_select 0
+{'val_loss': 2.033135175704956, 'val_perplexity': 7.637984871487421, 'val_perplexity_per_chunk': tensor([7.6380])}
+UDA_VISIBLE_DEVICES=1 python3 eval.py --seq_len 1024 --context_size 16384 --batch_size 1 --base_model /home/wangning/LongLoRA-main/path_to_saving_checkpoints16k_mss_vec3_kvccc/checkpoint-1000-7b-longlora-kv3c-merged --data_path pg19/validation.bin --attn_select 5 --lm_select 0
+{'val_loss': 1.9116921424865723, 'val_perplexity': 6.764516962142869, 'val_perplexity_per_chunk': tensor([6.7645])}
+UDA_VISIBLE_DEVICES=0 python3 eval.py --seq_len 1400 --context_size 16384 --batch_size 1 --base_model /home/wangning/LongLoRA-main/path_to_saving_checkpoints16k_mss_vec3_kvccc/checkpoint-1000-7b-longlora-kv3c-merged --data_path pg19/validation.bin --attn_select 5 --lm_select 0
+{'val_loss': 1.6031285524368286, 'val_perplexity': 4.968547153270038, 'val_perplexity_per_chunk': tensor([4.9686])}
+UDA_VISIBLE_DEVICES=1 python3 eval.py --seq_len 1790 --context_size 16384 --batch_size 1 --base_model /home/wangning/LongLoRA-main/path_to_saving_checkpoints16k_mss_vec3_kvccc/checkpoint-1000-7b-longlora-kv3c-merged --data_path pg19/validation.bin --attn_select 5 --lm_select 0
+UDA_VISIBLE_DEVICES=1 python3 eval.py --seq_len 2048 --context_size 16384 --batch_size 1 --base_model /home/wangning/LongLoRA-main/path_to_saving_checkpoints16k_mss_vec3_kvccc/checkpoint-1000-7b-longlora-kv3c-merged --data_path pg19/validation.bin --attn_select 5 --lm_select 0
+{'val_loss': 1.3491406440734863, 'val_perplexity': 3.8541085555211576, 'val_perplexity_per_chunk': tensor([3.8541])}
+UDA_VISIBLE_DEVICES=0 python3 eval.py --seq_len 4096 --context_size 16384 --batch_size 1 --base_model /home/wangning/LongLoRA-main/path_to_saving_checkpoints16k_mss_vec3_kvccc/checkpoint-1000-7b-longlora-kv3c-merged --data_path pg19/validation.bin --attn_select 5 --lm_select 0
+{'val_loss': 2.2309787273406982, 'val_perplexity': 9.308958598616556, 'val_perplexity_per_chunk': tensor([9.3090])}
+
+
+
+attn_outputs,attn_weights=forward_mss_local_inline_for_ccc(self,query_r,key_r,value_r)
+UDA_VISIBLE_DEVICES=1 python3 eval.py --seq_len 1024 --context_size 16384 --batch_size 1 --base_model /home/wangning/LongLoRA-main/path_to_saving_checkpoints16k_mss_vec3_kvccc/checkpoint-1000-7b-longlora-kv3c-merged --data_path pg19/validation.bin --attn_select 5 --lm_select 0
+{'val_loss': 2.5461132526397705, 'val_perplexity': 12.757400568863448, 'val_perplexity_per_chunk': tensor([12.7574])}
+UDA_VISIBLE_DEVICES=1 python3 eval.py --seq_len 890 --context_size 16384 --batch_size 1 --base_model /home/wangning/LongLoRA-main/path_to_saving_checkpoints16k_mss_vec3_kvccc/checkpoint-1000-7b-longlora-kv3c-merged --data_path pg19/validation.bin --attn_select 5 --lm_select 0
+{'val_loss': 2.623319387435913, 'val_perplexity': 13.78136921116535, 'val_perplexity_per_chunk': tensor([13.7814])}
+UDA_VISIBLE_DEVICES=1 python3 eval.py --seq_len 640 --context_size 16384 --batch_size 1 --base_model /home/wangning/LongLoRA-main/path_to_saving_checkpoints16k_mss_vec3_kvccc/checkpoint-1000-7b-longlora-kv3c-merged --data_path pg19/validation.bin --attn_select 5 --lm_select 0
+{'val_loss': 2.572065591812134, 'val_perplexity': 13.092818341902841, 'val_perplexity_per_chunk': tensor([13.0928])}
+UDA_VISIBLE_DEVICES=1 python3 eval.py --seq_len 512 --context_size 16384 --batch_size 1 --base_model /home/wangning/LongLoRA-main/path_to_saving_checkpoints16k_mss_vec3_kvccc/checkpoint-1000-7b-longlora-kv3c-merged --data_path pg19/validation.bin --attn_select 5 --lm_select 0
+{'val_loss': 2.7672042846679688, 'val_perplexity': 15.914050898545991, 'val_perplexity_per_chunk': tensor([15.9141])}
+UDA_VISIBLE_DEVICES=1 python3 eval.py --seq_len 2048 --context_size 16384 --batch_size 1 --base_model /home/wangning/LongLoRA-main/path_to_saving_checkpoints16k_mss_vec3_kvccc/checkpoint-1000-7b-longlora-kv3c-merged --data_path pg19/validation.bin --attn_select 5 --lm_select 0
+{'val_loss': 2.3620362281799316, 'val_perplexity': 10.61252215587073, 'val_perplexity_per_chunk': tensor([10.6125])}
+UDA_VISIBLE_DEVICES=0 python3 eval.py --seq_len 1400 --context_size 16384 --batch_size 1 --base_model /home/wangning/LongLoRA-main/path_to_saving_checkpoints16k_mss_vec3_kvccc/checkpoint-1000-7b-longlora-kv3c-merged --data_path pg19/validation.bin --attn_select 5 --lm_select 0
+{'val_loss': 2.4827258586883545, 'val_perplexity': 11.973839024696337, 'val_perplexity_per_chunk': tensor([11.9739])}
+UDA_VISIBLE_DEVICES=0 python3 eval.py --seq_len 256 --context_size 16384 --batch_size 1 --base_model /home/wangning/LongLoRA-main/path_to_saving_checkpoints16k_mss_vec3_kvccc/checkpoint-1000-7b-longlora-kv3c-merged --data_path pg19/validation.bin --attn_select 5 --lm_select 0
+
+UDA_VISIBLE_DEVICES=1 python3 eval.py --seq_len 4096 --context_size 16384 --batch_size 1 --base_model /home/wangning/LongLoRA-main/path_to_saving_checkpoints16k_mss_vec3_kvccc/checkpoint-1000-7b-longlora-kv3c-merged --data_path pg19/validation.bin --attn_select 5 --lm_select 0
+{'val_loss': 2.250054121017456, 'val_perplexity': 9.48823497566865, 'val_perplexity_per_chunk': tensor([9.4882])}
+
+
+
+UDA_VISIBLE_DEVICES=1 python3 eval.py --seq_len 1024 --context_size 16384 --batch_size 1 --base_model /home/wangning/LongLoRA-main/path_to_saving_checkpoints16k_mss_vec3_kvccc/checkpoint-5000-7b-longlora-kv3c-merged --data_path pg19/validation.bin --attn_select 5 --lm_select 0
+{'val_loss': 1.7184494733810425, 'val_perplexity': 5.575869768482195, 'val_perplexity_per_chunk': tensor([5.5759])}
+UDA_VISIBLE_DEVICES=1 python3 eval.py --seq_len 640 --context_size 16384 --batch_size 1 --base_model /home/wangning/LongLoRA-main/path_to_saving_checkpoints16k_mss_vec3_kvccc/checkpoint-5000-7b-longlora-kv3c-merged --data_path pg19/validation.bin --attn_select 5 --lm_select 0
+{'val_loss': 0.1312693953514099, 'val_perplexity': 1.1402748240178693, 'val_perplexity_per_chunk': tensor([1.1403])}
+UDA_VISIBLE_DEVICES=1 python3 eval.py --seq_len 512 --context_size 16384 --batch_size 1 --base_model /home/wangning/LongLoRA-main/path_to_saving_checkpoints16k_mss_vec3_kvccc/checkpoint-5000-7b-longlora-kv3c-merged --data_path pg19/validation.bin --attn_select 5 --lm_select 0
+{'val_loss': 2.5149433612823486, 'val_perplexity': 12.365887450899264, 'val_perplexity_per_chunk': tensor([12.3659])}
+UDA_VISIBLE_DEVICES=0 python3 eval.py --seq_len 256 --context_size 16384 --batch_size 1 --base_model /home/wangning/LongLoRA-main/path_to_saving_checkpoints16k_mss_vec3_kvccc/checkpoint-5000-7b-longlora-kv3c-merged --data_path pg19/validation.bin --attn_select 5 --lm_select 0
+
+
+
+UDA_VISIBLE_DEVICES=0 python3 eval.py --seq_len 16384 --context_size 16384 --batch_size 1 --base_model /home/wangning/transformer-xl-master/output/llama --peft_model path_to_saving_checkpoints16k_mss_vec3_lwmixmss/checkpoint-4000 --data_path pg19/validation.bin --attn_select 0 --lm_select 0
+path_to_saving_checkpoints16k_mss_vec_s4/checkpoint-5000
+
+UDA_VISIBLE_DEVICES=0 python3 eval.py --seq_len 16384 --context_size 16384 --batch_size 1 --base_model /home/wangning/transformer-xl-master/output/llama --peft_model path_to_saving_checkpoints16k_mss_vec_s4/checkpoint-5000 --data_path pg19/validation.bin --attn_select 0 --lm_select 0
+
+UDA_VISIBLE_DEVICES=1 python3 eval.py --seq_len 16384 --context_size 16384 --batch_size 1 --base_model /home/wangning/transformer-xl-master/output/llama --peft_model path_to_saving_checkpoints16k_mss_vec_s3_gpkpop/checkpoint-5000 --data_path pg19/validation.bin --attn_select 2 --lm_select 0
+UDA_VISIBLE_DEVICES=1 python3 eval.py --seq_len 16384 --context_size 16384 --batch_size 1 --base_model /home/wangning/transformer-xl-master/output/llama --peft_model path_to_saving_checkpoints16k_mss_vec/checkpoint-2000 --data_path pg19/validation.bin --attn_select 0 --lm_select 0
+UDA_VISIBLE_DEVICES=1 python3 eval.py --seq_len 16384 --context_size 16384 --batch_size 1 --base_model /home/wangning/transformer-xl-master/output/llama --peft_model path_to_saving_checkpoints16k_mss_vec2/checkpoint-5000 --data_path pg19/validation.bin --attn_select 0 --lm_select 0
+
+UDA_VISIBLE_DEVICES=1 python3 eval.py --seq_len 16384 --context_size 16384 --batch_size 1 --base_model /home/wangning/transformer-xl-master/output/llama --peft_model path_to_saving_checkpoints16k_mss_vec_s4/checkpoint-5000 --data_path pg19/validation.bin --attn_select 0 --lm_select 0
+UDA_VISIBLE_DEVICES=0 python3 eval.py --seq_len 16384 --context_size 16384 --batch_size 1 --base_model /home/wangning/transformer-xl-master/output/llama --peft_model path_to_saving_checkpoints16k_mss_vec_s5/checkpoint-5000 --data_path pg19/validation.bin --attn_select 0 --lm_select 0
+UDA_VISIBLE_DEVICES=0 python3 eval.py --seq_len 16384 --context_size 16384 --batch_size 1 --base_model /home/wangning/transformer-xl-master/output/llama --peft_model path_to_saving_checkpoints16k_mss_vec_s3_gpkpop/checkpoint-5000 --data_path pg19/validation.bin --attn_select 0 --lm_select 0
+UDA_VISIBLE_DEVICES=0 python3 eval.py --seq_len 16384 --context_size 16384 --batch_size 1 --base_model /home/wangning/transformer-xl-master/output/llama --peft_model path_to_saving_checkpoints16k_mss_vec3_lwmixmss/checkpoint-4000 --data_path pg19/validation.bin --attn_select 0 --lm_select 0
+UDA_VISIBLE_DEVICES=1 python3 eval.py --seq_len 16384 --context_size 16384 --batch_size 1 --base_model /home/wangning/transformer-xl-master/output/llama --peft_model path_to_saving_checkpoints16k_mss_vec_ne/checkpoint-1000 --data_path pg19/validation.bin --attn_select 0 --lm_select 0
+
+CUDA_VISIBLE_DEVICES=0 python3 eval.py --seq_len 16384 --context_size 16384 --batch_size 1 --base_model /home/wangning/transformer-xl-master/output/llama --peft_model path_to_saving_checkpoints16k_mssdcc-flash4r1024a16r64-ko/checkpoint-3000 --data_path pg19/validation.bin --attn_select 4 --lm_select 0
+
+CUDA_VISIBLE_DEVICES=0 python3 eval.py --seq_len 16384 --context_size 16384 --batch_size 1 --base_model /home/wangning/transformer-xl-master/output/llama --peft_model path_to_saving_checkpoints16k_mssdcc-merge8-64r16-ko/checkpoint-2000 --data_path pg19/validation.bin --attn_select 0 --lm_select 0
+
+
+CUDA_VISIBLE_DEVICES=0 python3 eval.py --seq_len 8192 --context_size 16384 --batch_size 1 --base_model /home/wangning/transformer-xl-master/output/llama --peft_model path_to_saving_checkpoints16k_ablation-qkvo/checkpoint-4000 --data_path pg19/validation.bin --attn_select 0 --lm_select 0 --sliding_window 8192
+
+CUDA_VISIBLE_DEVICES=1 python3 eval.py --seq_len 8192 --context_size 16384 --batch_size 1 --base_model /home/wangning/transformer-xl-master/output/llama --peft_model path_to_saving_checkpoints16k_ablation-ko/checkpoint-4000 --data_path pg19/validation.bin --attn_select 0 --lm_select 0 --sliding_window 8192
+
+CUDA_VISIBLE_DEVICES=0 python3 eval.py --seq_len 16384 --context_size 16384 --batch_size 1 --base_model /home/wangning/transformer-xl-master/output/llama --peft_model path_to_saving_checkpoints16k_ablation-qkvo/checkpoint-4000 --data_path pg19/validation.bin --attn_select 4 --lm_select 0 --sliding_window 16384
+
+CUDA_VISIBLE_DEVICES=1 python3 eval.py --seq_len 16384 --context_size 16384 --batch_size 1 --base_model /home/wangning/transformer-xl-master/output/llama --peft_model path_to_saving_checkpoints16k_ablation-ko/checkpoint-4000 --data_path pg19/validation.bin --attn_select 4 --lm_select 0 --sliding_window 16384
+
+CUDA_VISIBLE_DEVICES=1 python3 eval.py --seq_len 16384 --context_size 16384 --batch_size 1 --base_model /home/wangning/transformer-xl-master/output/llama --peft_model path_to_saving_checkpoints16k_mssdcc-merge2-8r4-ko/checkpoint-4000 --data_path pg19/validation.bin --attn_select 4 --lm_select 0 --sliding_window 16384
+CUDA_VISIBLE_DEVICES=0 python3 eval.py --seq_len 8192 --context_size 16384 --batch_size 1 --base_model /home/wangning/transformer-xl-master/output/llama --peft_model path_to_saving_checkpoints16k_mssdcc-merge2-8r4-ko/checkpoint-4000 --data_path pg19/validation.bin --attn_select 4 --lm_select 0 --sliding_window 8192
+
+CUDA_VISIBLE_DEVICES=0 python3 eval.py --seq_len 16384 --context_size 16384 --batch_size 1 --base_model /home/wangning/transformer-xl-master/output/llama --peft_model path_to_saving_checkpoints16k_mssdcc-merge2-16r8-zzffko/checkpoint-4500 --data_path pg19/validation.bin --attn_select 4 --lm_select 0 --sliding_window 16384
+CUDA_VISIBLE_DEVICES=0 python3 eval.py --seq_len 8192 --context_size 16384 --sliding_window 8192 --batch_size 1 --base_model /home/wangning/transformer-xl-master/output/llama --peft_model path_to_saving_checkpoints16k_mssdcc-merge2-16r8-zzffko/checkpoint-4500 --data_path pg19/validation.bin --attn_select 4 --lm_select 0
+CUDA_VISIBLE_DEVICES=1 python3 eval.py --seq_len 4096 --context_size 16384 --sliding_window 4096 --batch_size 1 --base_model /home/wangning/transformer-xl-master/output/llama --peft_model path_to_saving_checkpoints16k_mssdcc-merge2-16r8-zzffko/checkpoint-4500 --data_path pg19/validation.bin --attn_select 4 --lm_select 0
+CUDA_VISIBLE_DEVICES=1 python3 eval.py --seq_len 2048 --context_size 16384 --sliding_window 2048 --batch_size 1 --base_model /home/wangning/transformer-xl-master/output/llama --peft_model path_to_saving_checkpoints16k_mssdcc-merge8-64r16-ko/checkpoint-4500 --data_path pg19/validation.bin --attn_select 4 --lm_select 0
+
+CUDA_VISIBLE_DEVICES=0 python3 eval.py --seq_len 32768 --context_size 32768 --sliding_window 32768 --batch_size 1 --base_model /home/wangning/transformer-xl-master/output/llama --peft_model path_to_saving_checkpoints32k_m2_16r8_ko/checkpoint-4000 --data_path pg19/validation.bin --attn_select 4 --lm_select 0
+
+CUDA_VISIBLE_DEVICES=0 python3 eval.py --seq_len 32768 --context_size 32768 --sliding_window 32768 --batch_size 1 --base_model /home/wangning/transformer-xl-master/output/llama --peft_model path_to_saving_checkpoints32k_m2_16r8_ko/checkpoint-5000 --data_path pg19/validation.bin --attn_select 4 --lm_select 0
+CUDA_VISIBLE_DEVICES=0 python3 eval.py --seq_len 16384 --context_size 32768 --sliding_window 16384 --batch_size 1 --base_model /home/wangning/transformer-xl-master/output/llama --peft_model path_to_saving_checkpoints32k_m2_16r8_ko/checkpoint-5000 --data_path pg19/validation.bin --attn_select 4 --lm_select 0
+
+CUDA_VISIBLE_DEVICES=0 python3 eval.py --seq_len 16384 --context_size 16384 --sliding_window 16384 --batch_size 1 --base_model /home/wangning/transformer-xl-master/output/llama --peft_model path_to_saving_checkpoints16k_mssdcc-merge8-64r16-ko/checkpoint-2000 --data_path pg19/test.bin --attn_select 0 --lm_select 0
+CUDA_VISIBLE_DEVICES=0 python3 eval.py --seq_len 16384 --context_size 16384 --sliding_window 16384 --batch_size 1 --base_model /home/wangning/transformer-xl-master/output/llama --peft_model path_to_saving_checkpoints16kppl_m32-256r16-ko/checkpoint-2500 --data_path pg19/test.bin --attn_select 4 --lm_select 0
+
+CUDA_VISIBLE_DEVICES=0 python3 eval.py --seq_len 16384 --context_size 16384 --sliding_window 16384 --batch_size 1 --base_model /home/wangning/transformer-xl-master/output/llama --peft_model path_to_saving_checkpoints16kppl_m64-512r16-ko/checkpoint-5000 --data_path pg19/test.bin --attn_select 4 --lm_select 0
+
+CUDA_VISIBLE_DEVICES=0 python3 eval.py --seq_len 4096 --context_size 16384 --sliding_window 4096 --batch_size 1 --base_model /home/wangning/transformer-xl-master/output/llama --peft_model path_to_saving_checkpoints16k_lossp1-s512-ko/checkpoint-5000 --data_path pg19/validation.bin --attn_select 5 --lm_select 0
+
+
+
+UDA_VISIBLE_DEVICES=0 python3 eval.py --seq_len 16384 --context_size 16384 --batch_size 1 --base_model /home/wangning/transformer-xl-master/output/llama --peft_model path_to_saving_checkpoints16k_mss_vec2/checkpoint-5000 --data_path pg19/validation.bin --attn_select 0 --lm_select 0
+
+CUDA_VISIBLE_DEVICES=0 compute-sanitizer torchrun --nproc_per_node=1 fine-tunes.py  \
+        --model_name_or_path /home/wangning/transformer-xl-master/output/llama \
+        --bf16 True \
+        --output_dir path_to_saving_checkpoints16k_msslc-dcc-merge-ko \
+        --cache_dir path_to_cache \
+        --model_max_length 16384 \
+        --use_flash_attn False \
+        --low_rank_training True \
+        --num_train_epochs 1  \
+        --per_device_train_batch_size 1     \
+        --per_device_eval_batch_size 1     \
+        --gradient_accumulation_steps 1     \
+        --evaluation_strategy "no"     \
+        --save_strategy "steps"     \
+        --save_steps 500     \
+        --save_total_limit 5     \
+        --learning_rate 1e-4    \
+        --weight_decay 0.0     \
+        --warmup_steps 20     \
+        --lr_scheduler_type "constant_with_warmup"     \
+        --logging_steps 1     \
+        --deepspeed "ds_configs/stage2.json" \
+        --tf32 True \
+        --max_steps 5000        \
+        --replace_l 4   \
+        --replace_lm 0
+
+cd /home/wangning/LongLoRA-main
+CUDA_VISIBLE_DEVICES=0 torchrun --nproc_per_node=1 fine-tunes.py  \
+        --model_name_or_path /home/wangning/transformer-xl-master/output/llama \
+        --bf16 True \
+        --output_dir path_to_saving_checkpoints16k_mssdcc-merge2-16r16-zzffko \
+        --cache_dir path_to_cache \
+        --model_max_length 16384 \
+        --use_flash_attn False \
+        --low_rank_training True \
+        --num_train_epochs 1  \
+        --per_device_train_batch_size 1     \
+        --per_device_eval_batch_size 1     \
+        --gradient_accumulation_steps 1     \
+        --evaluation_strategy "no"     \
+        --save_strategy "steps"     \
+        --save_steps 500     \
+        --save_total_limit 5     \
+        --learning_rate 1e-4    \
+        --weight_decay 0.0     \
+        --warmup_steps 20     \
+        --lr_scheduler_type "constant_with_warmup"     \
+        --logging_steps 1     \
+        --deepspeed "ds_configs/stage2.json" \
+        --tf32 True \
+        --max_steps 5000        \
+        --replace_l 2   \
+        --replace_lm 0
+
+UDA_VISIBLE_DEVICES=0 python3 eval.py --seq_len 16384 --context_size 16384 --batch_size 1 --base_model /home/wangning/transformer-xl-master/output/llama --peft_model path_to_saving_checkpoints16k_mss_vec2/checkpoint-5000 --data_path pg19/validation.bin --attn_select 0 --lm_select 0
+forward_mss_local_inline_own
+{'val_loss': 2.02715802192688, 'val_perplexity': 7.5924676591755365, 'val_perplexity_per_chunk': tensor([7.5925])}
+
+
+python3 passkey_retrivial.py \
+        --context_size 16384 \
+        --base_model path_to_saving_checkpoints16k_mss_vec2/checkpoint-5000-7b-longlora-merged \
+        --max_tokens 16384 \
+        --interval 1000 \
+        --replace_l 0   \
+        --replace_lm 0
+
+python3 merge_lora_weights_and_save_hf_model.py \
+        --base_model /home/wangning/transformer-xl-master/output/llama \
+        --peft_model path_to_saving_checkpoints16k_mss_vec3_kvccc_lora-ko/checkpoint-5000 \
+        --context_size 16384 \
+        --save_path /home/wangning/LongLoRA-main/path_to_saving_checkpoints16k_mss_vec3_kvccc_lora-ko/checkpoint-5000-7b-longlora-merged
+
+python3 passkey_retrivial.py \
+        --context_size 16384 \
+        --base_model path_to_saving_checkpoints16k_msslocalt-ko/checkpoint-500-7b-longlora-kv3c-merged \
+        --max_tokens 16384 \
+        --interval 1000 \
+        --replace_l 6   \
+        --replace_lm 0
+
+cd /opt/conda/lib/python3.8/site-packages/transformers/models/llama
+
+python3 merge_lora_weights_and_save_hf_model.py \
+        --base_model /home/wangning/transformer-xl-master/output/llama \
+        --peft_model path_to_saving_checkpoints4k_kv3c-ko-128/checkpoint-5000 \
+        --context_size 16384 \
+        --save_path /home/wangning/LongLoRA-main/path_to_saving_checkpoints4k_kv3c-ko-128/checkpoint-5000-7b-longlora-kv3c-merged
+
+python3 passkey_retrivial.py \
+        --context_size 16384 \
+        --base_model path_to_saving_checkpoints16k_k3v-ffo/checkpoint-5000-7b-longlora-kvcc-merged \
+        --max_tokens 16384 \
+        --interval 1000 \
+        --replace_l 5   \
+        --replace_lm 0
+
+python3 merge_lora_weights_and_save_hf_model.py \
+        --base_model /home/wangning/transformer-xl-master/output/llama \
+        --peft_model path_to_saving_checkpoints16k_k3v-ffo/checkpoint-5000 \
+        --context_size 16384 \
+        --save_path /home/wangning/LongLoRA-main/path_to_saving_checkpoints16k_k3v-ffo/checkpoint-5000-7b-longlora-kvcc-merged
+
+python3 merge_lora_weights_and_save_hf_model.py \
+        --base_model /home/wangning/transformer-xl-master/output/llama \
+        --peft_model path_to_saving_checkpoints16k_mssl-localr-ko/checkpoint-1000 \
+        --context_size 16384 \
+        --save_path /home/wangning/LongLoRA-main/path_to_saving_checkpoints16k_mssl-localr-ko/checkpoint-1000-7b-longlora-kvcc-merged
+
+python3 passkey_retrivial.py \
+        --context_size 16384 \
+        --base_model path_to_saving_checkpoints16k_msslocalcross-ko/checkpoint-1000 \
+        --max_tokens 16384 \
+        --interval 1000 \
+        --replace_l 5   \
+        --replace_lm 0
+
+python zero_to_fp32.py . pytorch_model.bin
+python3 get_trainable_weights.py --checkpoint_path path_to_saving_checkpoints16k_msslocalsenmatic-kzffo/checkpoint-5000 --trainable_params "embed,norm,patchscale,o_proj,k_proj"
+python3 get_trainable_weights.py --checkpoint_path path_to_saving_checkpoints16k_msslocalpatch-kffo/checkpoint-5000 --trainable_params "embed,norm,patchscale,o_proj,k_proj"
+python3 get_trainable_weights.py --checkpoint_path path_to_saving_checkpoints16k_msslocalpatch-kffo2/checkpoint-5000 --trainable_params "embed,norm,patchscale,o_proj,k_proj"
+python3 get_trainable_weights.py --checkpoint_path path_to_saving_checkpoints16k_msslc-sps-kffo/checkpoint-5000 --trainable_params "embed,norm,patchscale,o_proj,k_proj"
+python3 get_trainable_weights.py --checkpoint_path path_to_saving_checkpoints16k_msslc-dcc-noflash-ko/checkpoint-5000 --trainable_params "embed,norm,patchscale,o_proj,k_proj"
+python3 get_trainable_weights.py --checkpoint_path path_to_saving_checkpoints16k_msslc-dcc-ko1/checkpoint-500 --trainable_params "embed,norm,patchscale,o_proj,k_proj"
+python3 get_trainable_weights.py --checkpoint_path path_to_saving_checkpoints16k_msslc-dcc-flash32-ko/checkpoint-3000 --trainable_params "embed,norm,patchscale,o_proj,k_proj"
+python3 get_trainable_weights.py --checkpoint_path path_to_saving_checkpoints16k_msslc-dcc-flash1024-ko/checkpoint-2500 --trainable_params "embed,norm,patchscale,o_proj,k_proj"
+python3 get_trainable_weights.py --checkpoint_path path_to_saving_checkpoints16k_mssdcc-flash4r1024a16r64-kffo/checkpoint-4000 --trainable_params "embed,norm,patchscale,o_proj,k_proj"
+python3 get_trainable_weights.py --checkpoint_path path_to_saving_checkpoints16k_mssdcc-flash4r1024a16r64-ko/checkpoint-3000 --trainable_params "embed,norm,patchscale,o_proj,k_proj"
+python3 get_trainable_weights.py --checkpoint_path path_to_saving_checkpoints16k_mssdcc-merge8-64r16-ko/checkpoint-2000 --trainable_params "embed,norm,patchscale,o_proj,k_proj"
+CUDA_VISIBLE_DEVICES=1 python3 merge_lora_weights_and_save_hf_model.py \
+        --base_model /home/wangning/transformer-xl-master/output/llama \
+        --peft_model path_to_saving_checkpoints16k_mssdcc-flash4r1024a16r64-kffo/checkpoint-4000 \
+        --context_size 16384 \
+        --save_path /home/wangning/LongLoRA-main/path_to_saving_checkpoints16k_mssdcc-flash4r1024a16r64-kffo/checkpoint-4000-7b-longlora-kvcc-merged
+
+CUDA_VISIBLE_DEVICES=1 python3 merge_lora_weights_and_save_hf_model.py \
+        --base_model /home/wangning/transformer-xl-master/output/llama \
+        --peft_model path_to_saving_checkpoints16k_msslc-dcc-flash32-ko/checkpoint-3000 \
+        --context_size 16384 \
+        --save_path /home/wangning/LongLoRA-main/path_to_saving_checkpoints16k_msslc-dcc-flash32-ko/checkpoint-3000-7b-longlora-kvcc-merged
+
+
+
+
+
+CUDA_VISIBLE_DEVICES=1 python3 passkey_retrivial.py \
+        --context_size 16384 \
+        --base_model path_to_saving_checkpoints16k_mssdcc-flash4r1024a16r64-kffo/checkpoint-4000-7b-longlora-kvcc-merged \
+        --max_tokens 16384 \
+        --interval 1000 \
+        --replace_l 4   \
+        --replace_lm 0
+
+CUDA_VISIBLE_DEVICES=1 python3 passkey_retrivial.py \
+        --context_size 16384 \
+        --base_model path_to_saving_checkpoints16k_msslc-dcc-flash1024-ko/checkpoint-2500-7b-longlora-kvcc-merged \
+        --max_tokens 16384 \
+        --interval 1000 \
+        --replace_l 4   \
+        --replace_lm 0
+
+python3 passkey_retrivial.py \
+        --context_size 16384 \
+        --base_model path_to_saving_checkpoints16k_msslocalcross-ko/checkpoint-5000 \
+        --max_tokens 16384 \
+        --interval 1000 \
+        --replace_l 5   \
+        --replace_lm 0
+
+CUDA_VISIBLE_DEVICES=1python3 passkey_retrivial.py \
+        --context_size 16384 \
+        --base_model path_to_saving_checkpoints16k_msslocalcross-cc-ko/checkpoint-3000-7b-longlora-kvcc-merged \
+        --max_tokens 16384 \
+        --interval 1000 \
+        --replace_l 4   \
+        --replace_lm 0
+
+
+ft-50K
+attn_output,attn_weights=forward_mss_local_inline_for_cccp_dtt_seg(self,query_states,key_states,value_states,topklist=[4],patchsize=[2048],w=2048,flash_use=True,seg=10240)
+llama_attn_replace_o1 copy 12.py
+
+ft-32K
+attn_output,attn_weights=forward_mss_local_inline_for_cccp_dtt(self,query_states,key_states,value_states,topklist=[4],patchsize=[1024],w=1024,flash_use=True)
+
+accuries over tokens {'3894': 1.0, '7990': 0.5, '11813': 0.3, '15909': 0.2, '20005': 0.6, '23827': 0.3, '27924': 0.1, '32020': 0.0}
+
+
+path_to_saving_checkpoints32k_scale16nodyNTKdim_dyqek_m64_w16s512_zkojobNTK32K_acc4_g4_lora64_noseqlen_ModZ16KS8K/checkpoint-2500-7b-longlora-kvcc-merged
+accuries over tokens {'7990': 0.4, '15909': 0.8, '23827': 1.0, '32020': 1.0, '39939': 1.0, '47858': 1.0, '56050': 1.0, '63969': 1.0}
+accuries over tokens {'7990': 1.0, '15909': 1.0, '23827': 1.0, '32020': 1.0, '39939': 1.0, '47858': 1.0, '56050': 1.0, '63969': 1.0}
+class LlamaDynamicNTKScalingRotaryEmbeddingMod(LlamaRotaryEmbedding):
+    """LlamaRotaryEmbedding extended with Dynamic NTK scaling. Credits to the Reddit users /u/bloc97 and /u/emozilla"""
+
+    def forward(self, x, position_ids):
+        # difference to the original RoPE: inv_freq is recomputed when the sequence length > original length
+        seq_len = torch.max(position_ids) + 1
+        # position_ids=position_ids%16384
+        # position_ids=position_ids%8192
+        # seq_len = torch.max(position_ids) + 1
+        # seq_len = 16384
+        if seq_len > self.max_position_embeddings:
+            base = self.base * (
+                # (self.scaling_factor * seq_len / self.max_position_embeddings) - (self.scaling_factor - 1)
+                4096 or 512 or 256
+            ) ** (self.dim / (self.dim - 2))
+            inv_freq = 1.0 / (
+                base ** (torch.arange(0, self.dim, 2, dtype=torch.int64).float().to(x.device) / self.dim)
+            )
+            self.register_buffer("inv_freq", inv_freq, persistent=False)  # TODO joao: this may break with compilation
+
+        cos, sin = super().forward(x, position_ids)
+        return cos, sin
+
+MODEL_PATH="path_to_saving_checkpoints32k_scale16nodyNTKdim_dyqek_m64_w16s512_zkojobNTK32K_acc4_g4_lora64_noseqlen_ModZ16KS8K/checkpoint-2500"
+256:160K-0.7
+16384:160K-0.9
+
+1024:100K-1.0
+1024:200K-1.0
+1024:250K-1.0
+
+16384:250K-0.8
+
+device_map = {
+        # "model.embed_tokens": "cpu",
+        "model.embed_tokens": "cpu",
+        "model.norm": "cpu",
+        "lm_head": "cpu",
+        "model.layers.0": "cuda:0",
+        "model.layers.1": "cuda:1",
+        "model.layers.2": "cuda:2",
+        "model.layers.3": "cuda:3",
+        "model.layers.4": "cuda:0",
+        "model.layers.5": "cuda:1",
+        "model.layers.6": "cuda:2",
+        "model.layers.7": "cuda:3",
+        "model.layers.8": "cuda:0",
+        "model.layers.9": "cuda:1",
+        "model.layers.10": "cuda:2",
+        "model.layers.11": "cuda:3",
+        "model.layers.12": "cuda:0",
+        "model.layers.13": "cuda:1",
+        "model.layers.14": "cuda:2",
+        "model.layers.15": "cuda:3",
+        "model.layers.16": "cuda:0",
+        "model.layers.17": "cuda:1",
+        "model.layers.18": "cuda:2",
+        "model.layers.19": "cuda:3",
+        "model.layers.20": "cuda:0",
+        "model.layers.21": "cuda:1",
+        "model.layers.22": "cuda:2",
+        "model.layers.23": "cuda:3",
+        "model.layers.24": "cuda:0",
+        "model.layers.25": "cuda:1",
+        "model.layers.26": "cuda:2",
+        "model.layers.27": "cuda:3",
+        "model.layers.28": "cuda:0",
+        "model.layers.29": "cuda:1",
+        "model.layers.30": "cuda:2",
+        "model.layers.31": "cuda:3",
+    }
+
+    device_map = {
+        # "model.embed_tokens": "cpu",
+        "model.embed_tokens": "cpu",
+        "model.norm": "cpu",
+        "lm_head": "cpu",
+        "model.layers.0": "cuda:0",
+        "model.layers.1": "cuda:0",
+        "model.layers.2": "cuda:0",
+        "model.layers.3": "cuda:0",
+        "model.layers.4": "cuda:0",
+        "model.layers.5": "cuda:0",
+        "model.layers.6": "cuda:0",
+        "model.layers.7": "cuda:0",
+        "model.layers.8": "cuda:1",
+        "model.layers.9": "cuda:1",
+        "model.layers.10": "cuda:1",
+        "model.layers.11": "cuda:1",
+        "model.layers.12": "cuda:1",
+        "model.layers.13": "cuda:1",
+        "model.layers.14": "cuda:1",
+        "model.layers.15": "cuda:1",
+        "model.layers.16": "cuda:2",
+        "model.layers.17": "cuda:2",
+        "model.layers.18": "cuda:2",
+        "model.layers.19": "cuda:2",
+        "model.layers.20": "cuda:2",
+        "model.layers.21": "cuda:2",
+        "model.layers.22": "cuda:2",
+        "model.layers.23": "cuda:2",
+        "model.layers.24": "cuda:3",
+        "model.layers.25": "cuda:3",
+        "model.layers.26": "cuda:3",
+        "model.layers.27": "cuda:3",
+        "model.layers.28": "cuda:3",
+        "model.layers.29": "cuda:3",
+        "model.layers.30": "cuda:3",
+        "model.layers.31": "cuda:3",
+    }
+
+MODEL_PATH="path_to_saving_checkpoints16k_scale16nodyNTKdim_dyqek_m64_w16s512_zkojobNTK32K_acc4_g4_lora64_noseqlen_Mod8K/checkpoint-2000"
+
+1024:250K-0.9
+class LlamaDynamicNTKScalingRotaryEmbeddingMod(LlamaRotaryEmbedding):
+    """LlamaRotaryEmbedding extended with Dynamic NTK scaling. Credits to the Reddit users /u/bloc97 and /u/emozilla"""
+
+    def forward(self, x, position_ids):
+        # difference to the original RoPE: inv_freq is recomputed when the sequence length > original length
+        seq_len = torch.max(position_ids) + 1
+        # position_ids=position_ids%16384
+        # position_ids=position_ids%8192
+        # seq_len = torch.max(position_ids) + 1
+        # seq_len = 16384
+        if seq_len > self.max_position_embeddings:
+            base = self.base * (
+                # (self.scaling_factor * seq_len / self.max_position_embeddings) - (self.scaling_factor - 1)
+                # 256
+                1024
+            ) ** (self.dim / (self.dim - 2))
+            inv_freq = 1.0 / (
+                base ** (torch.arange(0, self.dim, 2, dtype=torch.int64).float().to(x.device) / self.dim)
+            )
+            self.register_buffer("inv_freq", inv_freq, persistent=False)  # TODO joao: this may break with compilation
+
+        cos, sin = super().forward(x, position_ids)
+        return cos, sin
+
+The correct answer is 42614
+The model answer is (42614), is_correct : True
+Prompt has 249928 tokens
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:2 for open-end generation.
+The correct answer is 33004
+The model answer is (33004), is_correct : True
+Prompt has 249929 tokens
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:2 for open-end generation.
+The correct answer is 35344
+The model answer is (35344), is_correct : True
+Prompt has 249927 tokens
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:2 for open-end generation.
+The correct answer is 1689
+The model answer is (1689), is_correct : True
+Prompt has 249928 tokens
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:2 for open-end generation.
+The correct answer is 49862
+The model answer is (49862), is_correct : True
+Prompt has 249928 tokens
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:2 for open-end generation.
+The correct answer is 18639
+The model answer is (18639), is_correct : True
+Prompt has 249929 tokens
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:2 for open-end generation.
+The correct answer is 41188
+The model answer is (41188), is_correct : True
+Prompt has 249928 tokens
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:2 for open-end generation.
+The correct answer is 49690
+The model answer is (49690), is_correct : True
+Prompt has 249928 tokens
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:2 for open-end generation.
+The correct answer is 25941
+The model answer is (25941), is_correct : True
+Prompt has 249928 tokens
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:2 for open-end generation.
+The correct answer is 20829
+The model answer is (20829), is_correct : True
+accuracy on the token length 249928 is 1.000000
+
+
+cd /home/wangning/LongLoRA-main
+MODEL_PATH="path_to_saving_checkpoints32k_scale16nodyNTKdim_dyqek_m64_w16s512_zkojobNTK32K_acc4_g4_lora64_noseqlen_Mod16K/checkpoint-3000"
+CUDA_VISIBLE_DEVICES=0 python3 passkey_retrivial_LBF4c.py \
+        --context_size 65536 \
+        --base_model $MODEL_PATH-7b-longlora-kvcc-merged \
+        --max_tokens 1594700 \
+        --interval 1000000 \
+        --scaling_factor 16384   \
+        --num_tests 1   \
+        --replace_l 8   \
+        --replace_lm 0
+
+CUDA_VISIBLE_DEVICES=0 python3 passkey_retrivial_LBF4c.py \
+        --context_size 65536 \
+        --base_model $MODEL_PATH-7b-longlora-kvcc-merged \
+        --max_tokens 1594700 \
+        --interval 1000000 \
+        --scaling_factor 8192   \
+        --num_tests 1   \
+        --replace_l 8   \
+        --replace_lm 0
+
+CUDA_VISIBLE_DEVICES=0 python3 passkey_retrivial_LBF4c.py \
+        --context_size 65536 \
+        --base_model $MODEL_PATH-7b-longlora-kvcc-merged \
+        --max_tokens 1594700 \
+        --interval 1000000 \
+        --scaling_factor 4096   \
+        --num_tests 1   \
+        --replace_l 8   \
+        --replace_lm 0
+
+CUDA_VISIBLE_DEVICES=0 python3 passkey_retrivial_LBF4c.py \
+        --context_size 65536 \
+        --base_model $MODEL_PATH-7b-longlora-kvcc-merged \
+        --max_tokens 1594700 \
+        --interval 1000000 \
+        --scaling_factor 2048   \
+        --num_tests 1   \
+        --replace_l 8   \
+        --replace_lm 0
+
+CUDA_VISIBLE_DEVICES=0 python3 passkey_retrivial_LBF4c.py \
+        --context_size 65536 \
+        --base_model $MODEL_PATH-7b-longlora-kvcc-merged \
+        --max_tokens 1594700 \
+        --interval 1000000 \
+        --scaling_factor 256   \
+        --num_tests 1   \
+        --replace_l 8   \
+        --replace_lm 0
+
+
+
+MODEL_PATH="path_to_saving_checkpoints32k_scale16nodyNTKdim_dyqek_m64_w16s512_zkojobNTK32K_acc4_g4_lora64_noseqlen_Mod32K/checkpoint-2000"
+# cd $MODEL_PATH
+# python zero_to_fp32.py . pytorch_model.bin
+# cd ..
+# cd ..
+# python3 get_trainable_weights.py --checkpoint_path $MODEL_PATH --trainable_params "embed,norm,patchscale,o_proj,k_proj"
+# CUDA_VISIBLE_DEVICES=1 python3 merge_lora_weights_and_save_hf_model.py \
+#         --base_model /home/wangning/transformer-xl-master/output/llama \
+#         --peft_model $MODEL_PATH \
+#         --context_size 16384 \
+#         --save_path /home/wangning/LongLoRA-main/$MODEL_PATH-7b-longlora-kvcc-merged
+CUDA_VISIBLE_DEVICES=0 python3 passkey_retrivial_LB.py \
+        --context_size 65536 \
+        --base_model $MODEL_PATH-7b-longlora-kvcc-merged \
+        --max_tokens 58008 \
+        --interval 8000 \
+        --replace_l 8   \
+        --scaling_factor 8192   \
+        --replace_lm 0   \
+        --dynamic 1           
+accuries over tokens {'7990': 1.0, '15909': 1.0, '23827': 1.0, '32020': 1.0, '39939': 1.0, '47858': 1.0, '56050': 1.0}
+
+CUDA_VISIBLE_DEVICES=0 python3 passkey_retrivial_LB.py \
+        --context_size 65536 \
+        --base_model $MODEL_PATH-7b-longlora-kvcc-merged \
+        --max_tokens 58008 \
+        --interval 8000 \
+        --replace_l 8   \
+        --scaling_factor 16384   \
+        --replace_lm 0   \
+        --dynamic 1     
+accuries over tokens {'7990': 0.9, '15909': 1.0, '23827': 1.0, '32020': 1.0, '39939': 1.0, '47858': 1.0, '56050': 1.0}
+
+CUDA_VISIBLE_DEVICES=0 python3 passkey_retrivial_LB.py \
+        --context_size 65536 \
+        --base_model $MODEL_PATH-7b-longlora-kvcc-merged \
+        --max_tokens 58008 \
+        --interval 8000 \
+        --replace_l 8   \
+        --scaling_factor 32768   \
+        --replace_lm 0   \
+        --dynamic 1 
+accuries over tokens {'7990': 0.9, '15909': 1.0, '23827': 1.0, '32020': 1.0, '39939': 1.0, '47858': 1.0, '56050': 1.0}
+
+CUDA_VISIBLE_DEVICES=0 python3 passkey_retrivial_LB.py \
+        --context_size 65536 \
+        --base_model $MODEL_PATH-7b-longlora-kvcc-merged \
+        --max_tokens 58008 \
+        --interval 8000 \
+        --replace_l 8   \
+        --scaling_factor 65536   \
+        --replace_lm 0   \
+        --dynamic 1  
+accuries over tokens {'7990': 1.0, '15909': 1.0, '23827': 1.0, '32020': 1.0, '39939': 1.0, '47858': 1.0, '56050': 1.0}
+
+CUDA_VISIBLE_DEVICES=0 python3 passkey_retrivial_LB.py \
+        --context_size 65536 \
+        --base_model $MODEL_PATH-7b-longlora-kvcc-merged \
+        --max_tokens 58008 \
+        --interval 8000 \
+        --replace_l 8   \
+        --scaling_factor 4096   \
+        --replace_lm 0   \
+        --dynamic 1  
+accuries over tokens {'7990': 0.9, '15909': 1.0, '23827': 1.0, '32020': 1.0, '39939': 1.0, '47858': 1.0, '56050': 1.0}
+
+
+MODEL_PATH="path_to_saving_checkpoints32k_scale16nodyNTKdim_dyqek_m64_w16s512_zkojobNTK32K_acc4_g4_lora64_noseqlen_Mod32K/checkpoint-2000"
+
+# cd $MODEL_PATH
+# python zero_to_fp32.py . pytorch_model.bin
+# cd ..
+# cd ..
+# python3 get_trainable_weights.py --checkpoint_path $MODEL_PATH --trainable_params "embed,norm,patchscale,o_proj,k_proj"
+# CUDA_VISIBLE_DEVICES=1 python3 merge_lora_weights_and_save_hf_model.py \
+#         --base_model /home/wangning/transformer-xl-master/output/llama \
+#         --peft_model $MODEL_PATH \
+#         --context_size 16384 \
+#         --save_path /home/wangning/LongLoRA-main/$MODEL_PATH-7b-longlora-kvcc-merged
+CUDA_VISIBLE_DEVICES=0,1,2,3 python passkey_retrivial_LBs.py \
+        --context_size 163840 \
+        --base_model $MODEL_PATH-7b-longlora-kvcc-merged \
+        --max_tokens 320000 \
+        --interval 250000 \
+        --replace_l 9   \
+        --replace_lm 0   \
+        --scaling_factor 4096   \
+        --num_tests 10   \
+        --dynamic 1    
+        {'249926': 0.7}   
+
+CUDA_VISIBLE_DEVICES=0,1,2,3 python passkey_retrivial_LBs.py \
+        --context_size 163840 \
+        --base_model $MODEL_PATH-7b-longlora-kvcc-merged \
+        --max_tokens 320000 \
+        --interval 250000 \
+        --replace_l 9   \
+        --replace_lm 0   \
+        --scaling_factor 1024   \
+        --num_tests 10   \
+        --dynamic 1  
+        {'249926': 0.5}     
+
+CUDA_VISIBLE_DEVICES=0,1,2,3 python passkey_retrivial_LBs.py \
+        --context_size 163840 \
+        --base_model $MODEL_PATH-7b-longlora-kvcc-merged \
+        --max_tokens 320000 \
+        --interval 250000 \
+        --replace_l 9   \
+        --replace_lm 0   \
+        --scaling_factor 512   \
+        --num_tests 10   \
+        --dynamic 1 
+        {'249926': 0.0}
+
+CUDA_VISIBLE_DEVICES=0,1,2,3 python passkey_retrivial_LBs.py \
+        --context_size 163840 \
+        --base_model $MODEL_PATH-7b-longlora-kvcc-merged \
+        --max_tokens 320000 \
+        --interval 250000 \
+        --replace_l 9   \
+        --replace_lm 0   \
+        --scaling_factor 16384   \
+        --num_tests 10   \
+        --dynamic 1 
+        {'249926': 0.4}
+
+
+
+e4438b90-e4ad-4283-94bc-4f82b37438fd:
+cd /home/wangning/LongLoRA-main
+MODEL_PATH="path_to_saving_checkpoints32k_scale16nodyNTKdim_dyqek_m64_w16s512_zkojobNTK32K_acc4_g4_lora64_noseqlen_Mod32K/checkpoint-4500"
+CUDA_VISIBLE_DEVICES=0 python3 passkey_retrivial_LBF4c.py \
+        --context_size 65536 \
+        --base_model $MODEL_PATH-7b-longlora-kvcc-merged \
+        --max_tokens 1094700 \
+        --interval 1000000 \
+        --scaling_factor 1024   \
+        --num_tests 2   \
+        --replace_l 8   \
+        --replace_lm 0
+
+CUDA_VISIBLE_DEVICES=0 python3 passkey_retrivial_LBF4c.py \
+        --context_size 65536 \
+        --base_model $MODEL_PATH-7b-longlora-kvcc-merged \
+        --max_tokens 1094700 \
+        --interval 1000000 \
+        --scaling_factor 4096   \
+        --num_tests 2   \
+        --replace_l 8   \
+        --replace_lm 0
+
+CUDA_VISIBLE_DEVICES=0 python3 passkey_retrivial_LBF4c.py \
+        --context_size 65536 \
+        --base_model $MODEL_PATH-7b-longlora-kvcc-merged \
+        --max_tokens 1094700 \
+        --interval 800000 \
+        --scaling_factor 1024   \
+        --num_tests 2   \
+        --replace_l 8   \
+        --replace_lm 0
+
+CUDA_VISIBLE_DEVICES=0 python3 passkey_retrivial_LBF4c.py \
+        --context_size 65536 \
+        --base_model $MODEL_PATH-7b-longlora-kvcc-merged \
+        --max_tokens 1094700 \
+        --interval 600000 \
+        --scaling_factor 1024   \
+        --num_tests 2   \
+        --replace_l 8   \
+        --replace_lm 0
+        2024-08-31 20:25:47	
+Prompt has 599994 tokens
+2024-08-31 20:25:47	
+The correct answer is 65
+2024-08-31 20:25:47	
+The model answer is (65), is_correct : True
+2024-08-31 20:25:47	
+Prompt has 599994 tokens
+2024-08-31 20:25:47	
+The correct answer is 13
+2024-08-31 20:25:47	
+The model answer is (13), is_correct : True
+2024-08-31 20:25:47	
+accuracy on the token length 599994 is 1.000000
+2024-08-31 20:25:47	
+accuries over tokens {'599994': 1.0}
+553f248b-a03e-4d7f-8a4f-e85630134976
+cd /home/wangning/LongLoRA-main
+torchrun --nproc_per_node=2 fine-tunes_spntk.py  \
+        --model_name_or_path /home/wangning/transformer-xl-master/output/llama \
+        --bf16 True \
+        --output_dir path_to_saving_checkpoints32k_scale16nodyNTKdim_dyqek_m64_w16s512_zkojobNTK32K_acc4_g4_lora64_noseqlen_Mod32K \
+        --cache_dir path_to_cache \
+        --model_max_length 32768 \
+        --use_flash_attn False \
+        --low_rank_training True \
+        --num_train_epochs 1  \
+        --per_device_train_batch_size 1     \
+        --per_device_eval_batch_size 1     \
+        --gradient_accumulation_steps 1     \
+        --evaluation_strategy "no"     \
+        --save_strategy "steps"     \
+        --save_steps 500     \
+        --save_total_limit 6     \
+        --learning_rate 1e-4    \
+        --weight_decay 0.0     \
+        --warmup_steps 20     \
+        --lr_scheduler_type "constant_with_warmup"     \
+        --deepspeed "ds_configs/stage2_off.json" \
+        --logging_steps 1     \
+        --tf32 True \
+        --max_steps 5000        \
+        --ntkscale 4096   \
+        --dyft 0   \
+        --merge 128   \
+        --dynamic 6   \
+        --posmax 32768   \
+        --replace_l 7   \
+        --dysteps 2000   \
+        --replace_lm 0
+
+王宁	1.使用循环取模，实现了微调长度的32倍外推和扩展，即16K微调实现接近512K长度的passkey以及1M的PPL，32K实现1M passkey任务以及更长的PPL扩展
+2.探索decay与位置唯一性的解耦
+3.对目前高倍数外推进行数学建模与推导，争取实现接近无限的长度外推
+4.设计更高长度的推理实现，目前使用CPU卸载方法以及通信与计算叠加方法，后续考虑深入分析通信与计算的时间与重叠，实现更高效的推理	1.增加Infini-Bench数据集的测试
+2.整理最近的结果，修改NIPS的论文准备转投，之后可能需要占用李老师您一点时间，我尽量改的比较完善后再进行沟通。
+3.完善目前自己方法：位置编码高倍数外推的基本数学原理，并实现更长的扩展
+4.对于另外一篇文章，将文章中三个创新点拆分为三个小工作并进行史诗级加强：（1）通过相关性的多尺度聚类与多尺度压缩结合挑选机制以及矩阵秩分析，实现通用的高效Attention，争取覆盖目前已有的绝大多数高效Attention；（之前做过不少实验，相对于目前Attention有提升）（2）Softmax滤波等效替换的核函数，以及线性Attention升秩方法实现通用的线性Attention（之前也做过不少实验，有一定的提升）；（3）高阶交互与多项式拟合打破Attention的三阶局限性，实现更高的表达能力（目前仅理论分析，后续需要加入大量实验）。上面这篇文章可能需要一些时间加入较大量的实验与理论分析
